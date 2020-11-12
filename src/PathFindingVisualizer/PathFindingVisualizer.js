@@ -96,13 +96,15 @@ export default class PathfindingVisualizer extends Component {
                 setTimeout(() => {
                     document.body.style.pointerEvents = "all";
                     document.getElementById("navbar").style.opacity = 1;
-                }, 10 * i);
+                    document.getElementById(`node-${START_NODE_ROW}-${START_NODE_COL}`).className = 'node-start';
+                    document.getElementById(`node-${FINISH_NODE_ROW}-${FINISH_NODE_COL}`).className = 'node-finish';
+                }, 10 * (i + 1));
                 return;
             }
             setTimeout(() => {
                 const node = nodesInShortestPathOrder[i];
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node-shortest-path';
-            }, 10 * i)
+            }, 10 * (i + 1))
         }
     }
 
