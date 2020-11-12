@@ -1,0 +1,11 @@
+body {
+    overflow-y: hidden;
+}
+
+table {
+    border: 1px solid turquoise;
+    border-collapse: collapse;
+    margin: auto;
+    margin-top: 1%;
+    padding: 1rem;
+}
