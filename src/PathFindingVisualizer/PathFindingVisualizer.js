@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { dijkstra, getNodesInShortestPathOrder } from '../Algorithms/Dijkstra';
+import { dijkstraANDastar, getNodesInShortestPathOrder } from '../Algorithms/Dijkstra';
 import Node from './Node/Node';
 import "./PathFindingVisualizer.css";
 
@@ -26,6 +26,33 @@ export default class PathfindingVisualizer extends Component {
 
     clearBoard() {
         window.location.reload();
+    }
+
+    clearPath() {
+        const newGrid = this.state.grid;
+        for (let row of newGrid) {
+            for (let node of row) {
+                node.isStart = node.row === START_NODE_ROW && node.col === START_NODE_COL;
+                node.isFinish = node.row === FINISH_NODE_ROW && node.col === FINISH_NODE_COL;
+                node.distance = Infinity;
+                node.heuristic = 0;
+                node.isVisited = false;
+                node.previousNode = null;
+                if (node.isWall)
+                    continue;
+                node.isWall = false;
+                if (node.isStart) {
+                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node-start';
+                    continue;
+                }
+                if (node.isFinish) {
+                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node-finish';
+                    continue;
+                }
+                document.getElementById(`node-${node.row}-${node.col}`).className = '';
+            }
+        }
+        this.setState({ grid: newGrid });
     }
 
     handleMouseDown(row, col) {
@@ -94,13 +121,13 @@ export default class PathfindingVisualizer extends Component {
         }
     }
 
-    visualizeDijkstra() {
+    visualizeDijkstraOrAstar(isDijkstra) {
         document.body.style.pointerEvents = "none";
         document.getElementById("navbar").style.opacity = 0.5;
         const { grid } = this.state;
         const startNode = grid[START_NODE_ROW][START_NODE_COL];
         const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
-        const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
+        const visitedNodesInOrder = dijkstraANDastar(grid, startNode, finishNode, isDijkstra);
         const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
         this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
     }
@@ -114,8 +141,10 @@ export default class PathfindingVisualizer extends Component {
                     <div className="item">
                         <i class="road icon"></i>Pathfinding Visualizer
                     </div>
-                    <button className="item" onClick={() => { this.visualizeDijkstra() }} style={{ border: "none" }}>Visualize Dijkstra</button>
+                    <button className="item" onClick={() => { this.visualizeDijkstraOrAstar(true) }} style={{ border: "none" }}>Visualize Dijkstra</button>
+                    <button className="item" onClick={() => { this.visualizeDijkstraOrAstar(false) }} style={{ border: "none" }}>Visualize A*</button>
                     <button className="item" onClick={() => { this.clearBoard() }} style={{ border: "none" }}>Clear Board</button>
+                    <button className="item" onClick={() => { this.clearPath() }} style={{ border: "none" }}>Clear Path</button>
                 </div>
                 <table>
                     <tbody>
@@ -142,20 +171,20 @@ export default class PathfindingVisualizer extends Component {
                         })}
                     </tbody>
                 </table>
-                <div class="ui left labeled button" style={{ fontSize: "0.8rem", marginTop: "1rem", marginLeft: "0.5rem" }}>
-                    <a class="ui basic label" style={{ backgroundColor: "black", color: "white" }} href="https://github.com/RishabhSood">
-                        <i class="github icon"></i> RishabhSood
+                <div className="ui left labeled button" style={{ fontSize: "0.8rem", marginTop: "1rem", marginLeft: "0.5rem" }}>
+                    <a className="ui basic label" style={{ backgroundColor: "black", color: "white" }} href="https://github.com/RishabhSood">
+                        <i className="github icon"></i> RishabhSood
                     </a>
-                    <a class="ui icon button" href="https://github.com/RishabhSood/sortingAlgosVisualizer">
-                        <i class="fork icon"></i>
+                    <a className="ui icon button" href="https://github.com/RishabhSood/sortingAlgosVisualizer">
+                        <i className="fork icon"></i>
                     </a>
                 </div>
-                <div class="ui left labeled button" style={{ fontSize: "0.8rem" }}>
-                    <div class="ui basic label" style={{ backgroundColor: "#0072b1", color: "white" }}>
-                        <i class="linkedin icon"></i> RishabhSood
+                <div className="ui left labeled button" style={{ fontSize: "0.8rem" }}>
+                    <div className="ui basic label" style={{ backgroundColor: "#0072b1", color: "white" }}>
+                        <i className="linkedin icon"></i> RishabhSood
                     </div>
-                    <a class="ui icon button" href="https://www.linkedin.com/in/rishabh-sood-6312931a1/">
-                        <i class="user plus icon"></i>
+                    <a className="ui icon button" href="https://www.linkedin.com/in/rishabh-sood-6312931a1/">
+                        <i className="user plus icon"></i>
                     </a>
                 </div>
             </>
@@ -181,6 +210,7 @@ const createNode = (col, row) => {
         isStart: row === START_NODE_ROW && col === START_NODE_COL,
         isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
         distance: Infinity,
+        heuristic: 0,
         isVisited: false,
         isWall: false,
         previousNode: null,
