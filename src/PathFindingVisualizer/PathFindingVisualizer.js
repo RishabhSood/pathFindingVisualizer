@@ -15,7 +15,8 @@ export default class PathfindingVisualizer extends Component {
             grid: [],
             mouseIsPressed: false,
             startIsSelected: false,
-            finishIsSelected: false
+            finishIsSelected: false,
+            nodeSize: (window.outerWidth - 20) / 50
         };
     }
 
@@ -140,7 +141,7 @@ export default class PathfindingVisualizer extends Component {
         return (
             <>
                 <div className="ui stackable menu" id="navbar">
-                    <div className="item">
+                    <div className="item" style={{ color: "white", backgroundColor: "#1A1A1D" }}>
                         <i class="road icon"></i>Pathfinding Visualizer
                     </div>
                     <button className="item" onClick={() => { this.visualizeDijkstraOrAstar(true) }} style={{ border: "none" }}>Visualize Dijkstra</button>
@@ -166,6 +167,7 @@ export default class PathfindingVisualizer extends Component {
                                             onMouseDown={(row, col) => this.handleMouseDown(row, col)}
                                             onMouseEnter={(row, col) => this.handleMouseEnter(row, col)}
                                             onMouseUp={() => this.handleMouseUp()}
+                                            nodeSize={this.state.nodeSize}
                                         />
                                     )
                                 })}

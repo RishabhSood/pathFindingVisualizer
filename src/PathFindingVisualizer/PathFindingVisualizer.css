@@ -1,11 +1,18 @@
-body {
-    overflow-y: hidden;
-}
-
 table {
     border: 1px solid turquoise;
     border-collapse: collapse;
     margin: auto;
     margin-top: 1%;
     padding: 1rem;
+}
+
+button:hover{
+    background-color: #1A1A1D !important;
+    color: white !important;
+    transition-duration: 1s !important;
+}
+
+button::selection{
+    background-color: #1A1A1D !important;
+    color: white !important;
 }

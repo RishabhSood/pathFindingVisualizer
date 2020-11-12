@@ -12,6 +12,7 @@ export default class Node extends Component {
             onMouseDown,
             onMouseEnter,
             onMouseUp,
+            nodeSize
         } = this.props;
         const extraClassName = isFinish
             ? 'node-finish'
@@ -26,7 +27,8 @@ export default class Node extends Component {
                 className={extraClassName}
                 onMouseDown={() => onMouseDown(row, col)}
                 onMouseEnter={() => onMouseEnter(row, col)}
-                onMouseUp={() => onMouseUp(row, col)}>
+                onMouseUp={() => onMouseUp(row, col)}
+                style={{ width: `${nodeSize}px`, height: `${nodeSize}px` }}>
             </td>
         );
     }

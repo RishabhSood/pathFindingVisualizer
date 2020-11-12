@@ -1,8 +1,6 @@
 td {
     border: 1px solid turquoise;
     border-collapse: collapse;
-    height: 30px;
-    width: 30px;
 }
 
 .node-finish {
