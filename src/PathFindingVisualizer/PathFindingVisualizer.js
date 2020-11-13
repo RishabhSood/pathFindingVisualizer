@@ -279,6 +279,8 @@ const createNode = (col, row) => {
 const getNewGridWithWallToggled = (grid, row, col) => {
     const newGrid = grid.slice();
     const node = newGrid[row][col];
+    if (node.isStart || node.isFinish || node.isWeight)
+        return newGrid;
     const newNode = {
         ...node,
         isWall: !node.isWall,
@@ -290,6 +292,8 @@ const getNewGridWithWallToggled = (grid, row, col) => {
 const getNewGridWithWeightToggled = (grid, row, col) => {
     const newGrid = grid.slice();
     const node = newGrid[row][col];
+    if (node.isStart || node.isFinish || node.isWall)
+        return newGrid;
     const newNode = {
         ...node,
         isWeight: !node.isWeight,
@@ -311,6 +315,8 @@ const getNewGridWithStartToggled = (grid, row, col) => {
     const node = newGrid[row][col];
     const newNode = {
         ...node,
+        isWall: false,
+        isWeight: false,
         isStart: true,
     };
     newGrid[row][col] = newNode;
@@ -330,6 +336,8 @@ const getNewGridWithFinishToggled = (grid, row, col) => {
     const node = newGrid[row][col];
     const newNode = {
         ...node,
+        isWall: false,
+        isWeight: false,
         isFinish: true,
     };
     newGrid[row][col] = newNode;
