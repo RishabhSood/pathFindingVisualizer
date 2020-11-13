@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { dijkstraANDastar, depthFirstSearch, getNodesInShortestPathOrder } from '../Algorithms/algorithms';
+import { dijkstraANDastar, depthFirstSearch, getNodesInShortestPathOrder, mazeGenerator, recursiveDivisionMaze } from '../Algorithms/algorithms';
 import Node from './Node/Node';
 import "./PathFindingVisualizer.css";
 
@@ -181,6 +181,31 @@ export default class PathfindingVisualizer extends Component {
         this.animateDFS(visitedNodesInOrder, nodesInShortestPathOrder);
     }
 
+    generateMaze() {
+        const divisionWalls = [];
+        for (let j = 0; j < 50; j++)
+            divisionWalls.push([0, j]);
+        for (let k = 1; k < 20; k++) {
+            divisionWalls.push([k, 49]);
+            divisionWalls.push([k, 0]);
+        }
+        for (let l = 48; l >= 1; l--)
+            divisionWalls.push([19, l]);
+        recursiveDivisionMaze(2, 18, 2, 48, 0, divisionWalls);
+
+        for (let i = 0; i < divisionWalls.length; i++) {
+            setTimeout(() => {
+                const row = divisionWalls[i][0];
+                const col = divisionWalls[i][1];
+                const newGrid = this.state.grid;
+                if (!newGrid[row][col].isWall) {
+                    const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
+                    this.setState({ grid: newGrid });
+                }
+            }, 10 * i);
+        }
+    }
+
     render() {
         const { grid, mouseIsPressed } = this.state;
 
@@ -202,6 +227,7 @@ export default class PathfindingVisualizer extends Component {
                             <label>Drag to add weights</label>
                         </div>
                     </div>
+                    <button className="item" onClick={() => { this.generateMaze() }} style={{ border: "none" }}>Generate Maze</button>
                 </div>
                 <table>
                     <tbody>
