@@ -20,6 +20,7 @@ export function dijkstraANDastar(grid, startNode, finishNode, isDijkstra) {
     }
 }
 
+//Depth First Search
 export function depthFirstSearch(grid, startNode, finishNode) {
     const visitedNodesInOrder = [];
     startNode.distance = 0;
@@ -55,6 +56,7 @@ export function depthFirstSearch(grid, startNode, finishNode) {
     return visitedNodesInOrder;
 }
 
+//utility functions
 function sortNodesByDistance(unvisitedNodes, isDijkstra) {
     if (isDijkstra)
         unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
@@ -100,6 +102,7 @@ function getAllNodes(grid) {
     return nodes;
 }
 
+//backtrack and return path
 export function getNodesInShortestPathOrder(finishNode) {
     const nodesInShortestPathOrder = [];
     let currentNode = finishNode;

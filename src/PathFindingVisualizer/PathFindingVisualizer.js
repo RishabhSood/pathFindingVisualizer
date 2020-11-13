@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { dijkstraANDastar, getNodesInShortestPathOrder, depthFirstSearch } from '../Algorithms/Dijkstra';
+import { dijkstraANDastar, depthFirstSearch, getNodesInShortestPathOrder } from '../Algorithms/algorithms';
 import Node from './Node/Node';
 import "./PathFindingVisualizer.css";
 
