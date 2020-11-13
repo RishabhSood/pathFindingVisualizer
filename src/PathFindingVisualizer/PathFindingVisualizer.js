@@ -41,6 +41,10 @@ export default class PathfindingVisualizer extends Component {
                 node.previousNode = null;
                 if (node.isWall)
                     continue;
+                if (node.isWeight) {
+                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node-weight';
+                    continue;
+                }
                 node.isWall = false;
                 if (node.isStart) {
                     document.getElementById(`node-${node.row}-${node.col}`).className = 'node-start';
@@ -67,6 +71,11 @@ export default class PathfindingVisualizer extends Component {
             this.setState({ grid: newGrid, mouseIsPressed: true, finishIsSelected: true });
             return;
         }
+        if (document.getElementById("weightToggle").checked === true) {
+            const newGrid = getNewGridWithWeightToggled(this.state.grid, row, col);
+            this.setState({ grid: newGrid, mouseIsPressed: true });
+            return;
+        }
         const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
         this.setState({ grid: newGrid, mouseIsPressed: true });
     }
@@ -80,6 +89,11 @@ export default class PathfindingVisualizer extends Component {
         }
         if (this.state.finishIsSelected) {
             const newGrid = getNewGridWithFinishToggled(this.state.grid, row, col);
+            this.setState({ grid: newGrid });
+            return;
+        }
+        if (document.getElementById("weightToggle").checked === true) {
+            const newGrid = getNewGridWithWeightToggled(this.state.grid, row, col);
             this.setState({ grid: newGrid });
             return;
         }
@@ -175,13 +189,19 @@ export default class PathfindingVisualizer extends Component {
                     <button className="item" onClick={() => { this.visualizeDFS() }} style={{ border: "none" }}>Visualize DFS</button>
                     <button className="item" onClick={() => { this.clearBoard() }} style={{ border: "none" }}>Clear Board</button>
                     <button className="item" onClick={() => { this.clearPath() }} style={{ border: "none" }}>Clear Path</button>
+                    <div className="item">
+                        <div className="ui toggle checkbox">
+                            <input type="checkbox" name="public" id="weightToggle" />
+                            <label>Drag to add weights</label>
+                        </div>
+                    </div>
                 </div>
                 <table>
                     <tbody>
                         {grid.map((row, rowIdx) => {
                             return <tr key={rowIdx}>
                                 {row.map((node, nodeIdx) => {
-                                    const { row, col, isStart, isFinish, isWall } = node;
+                                    const { row, col, isStart, isFinish, isWall, isWeight } = node;
                                     return (
                                         <Node
                                             key={nodeIdx}
@@ -190,6 +210,7 @@ export default class PathfindingVisualizer extends Component {
                                             isStart={isStart}
                                             isFinish={isFinish}
                                             isWall={isWall}
+                                            isWeight={isWeight}
                                             mouseIsPressed={mouseIsPressed}
                                             onMouseDown={(row, col) => this.handleMouseDown(row, col)}
                                             onMouseEnter={(row, col) => this.handleMouseEnter(row, col)}
@@ -244,6 +265,7 @@ const createNode = (col, row) => {
         heuristic: 0,
         isVisited: false,
         isWall: false,
+        isWeight: false,
         previousNode: null,
     };
 };
@@ -254,6 +276,17 @@ const getNewGridWithWallToggled = (grid, row, col) => {
     const newNode = {
         ...node,
         isWall: !node.isWall,
+    };
+    newGrid[row][col] = newNode;
+    return newGrid;
+};
+
+const getNewGridWithWeightToggled = (grid, row, col) => {
+    const newGrid = grid.slice();
+    const node = newGrid[row][col];
+    const newNode = {
+        ...node,
+        isWeight: !node.isWeight,
     };
     newGrid[row][col] = newNode;
     return newGrid;

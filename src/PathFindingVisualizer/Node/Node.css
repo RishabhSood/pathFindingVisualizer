@@ -85,6 +85,32 @@ td {
     }
 }
 
+.node-weight {
+  animation-name: nodeWeight;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-out;
+  background: url('https://clementmihailescu.github.io/Pathfinding-Visualizer/public/styling/weight.svg') no-repeat center center;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+
+@keyframes nodeWeight {
+  0% {
+      transform: scale(0.6);
+  }
+
+  50% {
+      transform: scale(1.2);
+  }
+
+  100% {
+      transform: scale(1);
+  }
+}
+
 .node-visited {
     animation-name: visitedAnimation;
     animation-duration: 1.5s;

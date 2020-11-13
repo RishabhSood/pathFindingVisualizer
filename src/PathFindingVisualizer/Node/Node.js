@@ -9,6 +9,7 @@ export default class Node extends Component {
             isStart,
             isFinish,
             isWall,
+            isWeight,
             onMouseDown,
             onMouseEnter,
             onMouseUp,
@@ -20,7 +21,9 @@ export default class Node extends Component {
                 ? 'node-start'
                 : isWall
                     ? 'node-wall'
-                    : '';
+                    : isWeight
+                        ? 'node-weight'
+                        : '';
 
         return (
             <td id={`node-${row}-${col}`}
