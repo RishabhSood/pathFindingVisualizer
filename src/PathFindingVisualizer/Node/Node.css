@@ -144,6 +144,30 @@ td {
     }
   }
 
+  .node-weight-visited {
+    animation-name: visitedAnimation;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    background: url('https://clementmihailescu.github.io/Pathfinding-Visualizer/public/styling/weight.svg') no-repeat center center;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  }
+
+  .node-weight-shortest-path {
+    animation-name: shortestPath;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    background: url('https://clementmihailescu.github.io/Pathfinding-Visualizer/public/styling/weight.svg') no-repeat center center;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  }
+
   .node-shortest-path {
     border: none;
     animation-name: shortestPath;
