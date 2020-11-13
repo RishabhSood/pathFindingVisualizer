@@ -1,5 +1,5 @@
 //Dijkstra and A*
-export function dijkstraANDastar(grid, startNode, finishNode, isDijkstra) {
+export function dijkstraANDastar(grid, startNode, finishNode, isDijkstra, isBFS) {
     for (const row of grid) {
         for (const node of row) {
             node.heuristic = Math.floor(Math.sqrt(Math.pow(Math.abs(node.row - finishNode.row), 2) + Math.pow(Math.abs(node.col - finishNode.col), 2)))
@@ -16,7 +16,7 @@ export function dijkstraANDastar(grid, startNode, finishNode, isDijkstra) {
         closestNode.isVisited = true;
         visitedNodesInOrder.push(closestNode);
         if (closestNode === finishNode) return visitedNodesInOrder;
-        updateUnvisitedNeighbors(closestNode, grid);
+        updateUnvisitedNeighbors(closestNode, grid, isBFS);
     }
 }
 
@@ -64,13 +64,13 @@ function sortNodesByDistance(unvisitedNodes, isDijkstra) {
         unvisitedNodes.sort((nodeA, nodeB) => (nodeA.distance + nodeA.heuristic) - (nodeB.distance + nodeB.heuristic));
 }
 
-function updateUnvisitedNeighbors(node, grid) {
+function updateUnvisitedNeighbors(node, grid, isBFS) {
     const unvisitedNeighbors = getUnvisitedNeighbors(node, grid);
     for (const neighbor of unvisitedNeighbors) {
-        if (neighbor.isWeight)
-            neighbor.distance = node.distance + 5;
-        else
+        if (isBFS || !neighbor.isWeight)
             neighbor.distance = node.distance + 1;
+        else
+            neighbor.distance = node.distance + 5;
         neighbor.previousNode = node;
     }
 }
