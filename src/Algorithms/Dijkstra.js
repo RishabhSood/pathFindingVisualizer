@@ -1,3 +1,4 @@
+//Dijkstra and A*
 export function dijkstraANDastar(grid, startNode, finishNode, isDijkstra) {
     for (const row of grid) {
         for (const node of row) {
