@@ -20,6 +20,41 @@ export function dijkstraANDastar(grid, startNode, finishNode, isDijkstra) {
     }
 }
 
+export function depthFirstSearch(grid, startNode, finishNode) {
+    const visitedNodesInOrder = [];
+    startNode.distance = 0;
+    startNode.isVisited = true;
+    const unvisitedNodes = getAllNodes(grid);
+    sortNodesByDistance(unvisitedNodes, true);
+    visitedNodesInOrder.push(unvisitedNodes.shift());
+    let nodeCount = unvisitedNodes.length;
+    let currentNode = visitedNodesInOrder[visitedNodesInOrder.length - 1];
+    let neighbors = getNeighbors(currentNode, grid);
+    while (nodeCount--) {
+        neighbors = neighbors.filter(neighbor => !neighbor.isWall);
+        if (neighbors.length) {
+            const latestNode = neighbors.shift();
+            latestNode.isVisited = true;
+            latestNode.previousNode = currentNode;
+            visitedNodesInOrder.push(latestNode);
+            if (latestNode === finishNode) {
+                return visitedNodesInOrder;
+            }
+            currentNode = visitedNodesInOrder[visitedNodesInOrder.length - 1];
+            neighbors = getNeighbors(currentNode, grid);
+        }
+        else {
+            while (neighbors.length === 0) {
+                currentNode = currentNode.previousNode;
+                if (currentNode === null)
+                    return visitedNodesInOrder;
+                neighbors = getNeighbors(currentNode, grid);
+            }
+        }
+    }
+    return visitedNodesInOrder;
+}
+
 function sortNodesByDistance(unvisitedNodes, isDijkstra) {
     if (isDijkstra)
         unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
@@ -42,6 +77,16 @@ function getUnvisitedNeighbors(node, grid) {
     if (row < grid.length - 1) neighbors.push(grid[row + 1][col]);
     if (col > 0) neighbors.push(grid[row][col - 1]);
     if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]);
+    return neighbors.filter(neighbor => !neighbor.isVisited);
+}
+
+function getNeighbors(node, grid) {
+    const neighbors = [];
+    const { col, row } = node;
+    if (row > 0) neighbors.push(grid[row - 1][col]);
+    if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]);
+    if (row < grid.length - 1) neighbors.push(grid[row + 1][col]);
+    if (col > 0) neighbors.push(grid[row][col - 1]);
     return neighbors.filter(neighbor => !neighbor.isVisited);
 }
 

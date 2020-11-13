@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { dijkstraANDastar, getNodesInShortestPathOrder } from '../Algorithms/Dijkstra';
+import { dijkstraANDastar, getNodesInShortestPathOrder, depthFirstSearch } from '../Algorithms/Dijkstra';
 import Node from './Node/Node';
 import "./PathFindingVisualizer.css";
 
@@ -135,6 +135,32 @@ export default class PathfindingVisualizer extends Component {
         this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
     }
 
+    animateDFS(visitedNodesInOrder, nodesInShortestPathOrder) {
+        for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+            if (i === visitedNodesInOrder.length) {
+                setTimeout(() => {
+                    this.animateShortestPath(nodesInShortestPathOrder);
+                }, 10 * i);
+                return;
+            }
+            setTimeout(() => {
+                const node = visitedNodesInOrder[i];
+                document.getElementById(`node-${node.row}-${node.col}`).className = 'node-visited';
+            }, 10 * i)
+        }
+    }
+
+    visualizeDFS() {
+        document.body.style.pointerEvents = "none";
+        document.getElementById("navbar").style.opacity = 0.5;
+        const { grid } = this.state;
+        const startNode = grid[START_NODE_ROW][START_NODE_COL];
+        const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+        const visitedNodesInOrder = depthFirstSearch(grid, startNode, finishNode);
+        const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+        this.animateDFS(visitedNodesInOrder, nodesInShortestPathOrder);
+    }
+
     render() {
         const { grid, mouseIsPressed } = this.state;
 
@@ -146,6 +172,7 @@ export default class PathfindingVisualizer extends Component {
                     </div>
                     <button className="item" onClick={() => { this.visualizeDijkstraOrAstar(true) }} style={{ border: "none" }}>Visualize Dijkstra</button>
                     <button className="item" onClick={() => { this.visualizeDijkstraOrAstar(false) }} style={{ border: "none" }}>Visualize A*</button>
+                    <button className="item" onClick={() => { this.visualizeDFS() }} style={{ border: "none" }}>Visualize DFS</button>
                     <button className="item" onClick={() => { this.clearBoard() }} style={{ border: "none" }}>Clear Board</button>
                     <button className="item" onClick={() => { this.clearPath() }} style={{ border: "none" }}>Clear Path</button>
                 </div>

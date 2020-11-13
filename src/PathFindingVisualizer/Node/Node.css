@@ -59,7 +59,7 @@ td {
     border: none;
     animation-name: nodeWall;
     background-color: rgb(12, 53, 71);
-    animation-duration: 1.5s;
+    animation-duration: 0.5s;
     animation-timing-function: ease-out;
     animation-delay: 0;
     animation-direction: alternate;
