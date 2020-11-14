@@ -109,13 +109,19 @@ export default class PathfindingVisualizer extends Component {
     handleMouseEnter(row, col) {
         if (!this.state.mouseIsPressed) return;
         if (this.state.startIsSelected) {
-            const newGrid = getNewGridWithStartToggled(this.state.grid, row, col);
-            this.setState({ grid: newGrid });
+            const currGrid = this.state.grid;
+            if (!currGrid[row][col].isFinish && !currGrid[row][col].isWall) {
+                const newGrid = getNewGridWithStartToggled(this.state.grid, row, col);
+                this.setState({ grid: newGrid });
+            }
             return;
         }
         if (this.state.finishIsSelected) {
-            const newGrid = getNewGridWithFinishToggled(this.state.grid, row, col);
-            this.setState({ grid: newGrid });
+            const currGrid = this.state.grid;
+            if (!currGrid[row][col].isStart && !currGrid[row][col].isWall) {
+                const newGrid = getNewGridWithFinishToggled(this.state.grid, row, col);
+                this.setState({ grid: newGrid });
+            }
             return;
         }
         if (document.getElementById("weightToggle").checked === true) {
