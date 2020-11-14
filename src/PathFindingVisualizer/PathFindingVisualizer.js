@@ -315,7 +315,7 @@ export default class PathfindingVisualizer extends Component {
                     <a className="ui basic label" style={{ backgroundColor: "black", color: "white" }} href="https://github.com/RishabhSood">
                         <i className="github icon"></i> RishabhSood
                     </a>
-                    <a className="ui icon button" href="https://github.com/RishabhSood/sortingAlgosVisualizer">
+                    <a className="ui icon button" href="https://github.com/RishabhSood/pathFindingVisualizer">
                         <i className="fork icon"></i>
                     </a>
                 </div>
