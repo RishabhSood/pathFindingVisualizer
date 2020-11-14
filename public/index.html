@@ -36,8 +36,19 @@
       <i class="close icon"></i>
       <div class="header"><i class="road icon"></i>Pathfinding Visualizer</div>
       <div class="scrolling content">
-        <img src = "%PUBLIC_URL%/key.PNG" style="width: 100%">
-        <img src = "%PUBLIC_URL%/key2.PNG" style="width: 100%">
+      <div class="ui segment">
+      <div style="display: flex; align-items: center; font-size: 1.4rem; float: center; justify-content: center">
+        <img src = "%PUBLIC_URL%/triangletwo-right.svg" style="vertical-align:middle; height: 30px; margin-right: 1rem">Start Node
+        <img src = "%PUBLIC_URL%/circle.svg" style="vertical-align:middle; height: 30px; margin-left: 2rem; margin-right: 1rem">Target Node
+        <img src = "%PUBLIC_URL%/weight.svg" style="vertical-align:middle; height: 30px; margin-left: 2rem; margin-right: 1rem">Weight Node
+        <div style="vertical-align:middle; height: 30px; width: 30px; border: 1px solid turquoise; margin-left: 2rem; margin-right: 1rem"></div>Unvisited Node
+      </div>
+      <div style="display: flex; align-items: center; font-size: 1.4rem; margin-top: 2rem; justify-content: center">
+        <div style="vertical-align:middle; height: 30px; width: 30px; background-color: rgba(0, 190, 218, 0.75); margin-right: 1rem"></div>Visited Node
+        <div style="vertical-align:middle; height: 30px; width: 30px; background-color: yellow; margin-left: 2rem; margin-right: 1rem"></div>Shortest-Path Node
+        <div style="vertical-align:middle; height: 30px; width: 30px; background-color: black; margin-left: 2rem; margin-right: 1rem"></div>Wall Node
+      </div>
+      </div>
         <div class="ui segment">
         <i class="mouse pointer icon"></i> Click and drag the start / finish node to reposition it
         </div>
