@@ -29,6 +29,32 @@ export default class PathfindingVisualizer extends Component {
         window.location.reload();
     }
 
+    clearWeights() {
+        const newGrid = this.state.grid;
+        for (let row of newGrid) {
+            for (let node of row) {
+                node.isStart = node.row === START_NODE_ROW && node.col === START_NODE_COL;
+                node.isFinish = node.row === FINISH_NODE_ROW && node.col === FINISH_NODE_COL;
+                node.distance = Infinity;
+                node.heuristic = 0;
+                node.isVisited = false;
+                node.previousNode = null;
+                node.isWall = false;
+                node.isWeight = false;
+                if (node.isStart) {
+                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node-start';
+                    continue;
+                }
+                if (node.isFinish) {
+                    document.getElementById(`node-${node.row}-${node.col}`).className = 'node-finish';
+                    continue;
+                }
+                document.getElementById(`node-${node.row}-${node.col}`).className = '';
+            }
+        }
+        this.setState({ grid: newGrid });
+    }
+
     clearPath() {
         const newGrid = this.state.grid;
         for (let row of newGrid) {
@@ -145,6 +171,7 @@ export default class PathfindingVisualizer extends Component {
     }
 
     visualizeDijkstraOrAstar(isDijkstra, isBFS) {
+        this.clearPath();
         document.body.style.pointerEvents = "none";
         document.getElementById("navbar").style.opacity = 0.5;
         const { grid } = this.state;
@@ -171,6 +198,7 @@ export default class PathfindingVisualizer extends Component {
     }
 
     visualizeDFS() {
+        this.clearPath();
         document.body.style.pointerEvents = "none";
         document.getElementById("navbar").style.opacity = 0.5;
         const { grid } = this.state;
@@ -182,6 +210,13 @@ export default class PathfindingVisualizer extends Component {
     }
 
     generateMaze() {
+        this.clearWeights();
+        document.body.style.pointerEvents = "none";
+        const items = document.getElementsByClassName("item")
+        for (const item of items)
+            item.style.opacity = 0.5;
+        document.getElementById("status").style.display = "flex";
+        document.getElementById("status").style.opacity = 1;
         const divisionWalls = [];
         for (let j = 0; j < 50; j++)
             divisionWalls.push([0, j]);
@@ -191,16 +226,34 @@ export default class PathfindingVisualizer extends Component {
         }
         for (let l = 48; l >= 1; l--)
             divisionWalls.push([19, l]);
-        recursiveDivisionMaze(2, 18, 2, 48, 0, divisionWalls);
+        recursiveDivisionMaze(2, 17, 2, 47, 0, divisionWalls);
 
-        for (let i = 0; i < divisionWalls.length; i++) {
+        for (let i = 0; i <= divisionWalls.length; i++) {
+            if (i === divisionWalls.length) {
+                setTimeout(() => {
+                    let newGrid = this.state.grid;
+                    for (let j = 0; j < divisionWalls.length; j++) {
+                        const row = divisionWalls[j][0];
+                        const col = divisionWalls[j][1];
+                        if (!newGrid[row][col].isWall && !newGrid[row][col].isStart && !newGrid[row][col].isFinish && !newGrid[row][col].isWeight) {
+                            newGrid[row][col].isWall = true;
+                        }
+                        this.setState({ grid: newGrid });
+                        document.body.style.pointerEvents = "all";
+                        const items = document.getElementsByClassName("item")
+                        for (const item of items)
+                            item.style.opacity = 1;
+                        document.getElementById("status").style.display = "none";
+                    }
+                }, 10.3 * (i - 1));
+                return;
+            }
             setTimeout(() => {
                 const row = divisionWalls[i][0];
                 const col = divisionWalls[i][1];
                 const newGrid = this.state.grid;
-                if (!newGrid[row][col].isWall) {
-                    const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
-                    this.setState({ grid: newGrid });
+                if (!newGrid[row][col].isWall && !newGrid[row][col].isStart && !newGrid[row][col].isFinish) {
+                    document.getElementById(`node-${row}-${col}`).className = 'node-wall';
                 }
             }, 10 * i);
         }
@@ -219,8 +272,9 @@ export default class PathfindingVisualizer extends Component {
                     <button className="item" onClick={() => { this.visualizeDijkstraOrAstar(false, false) }} style={{ border: "none" }}>Visualize A*</button>
                     <button className="item" onClick={() => { this.visualizeDijkstraOrAstar(true, true) }} style={{ border: "none" }}>Visualize BFS</button>
                     <button className="item" onClick={() => { this.visualizeDFS() }} style={{ border: "none" }}>Visualize DFS</button>
-                    <button className="item" onClick={() => { this.clearBoard() }} style={{ border: "none" }}>Clear Board</button>
+                    <button className="item" onClick={() => { this.clearWeights() }} style={{ border: "none" }}>Clear Weights</button>
                     <button className="item" onClick={() => { this.clearPath() }} style={{ border: "none" }}>Clear Path</button>
+                    <button className="item" onClick={() => { this.clearBoard() }} style={{ border: "none" }}>Refresh</button>
                     <div className="item">
                         <div className="ui toggle checkbox">
                             <input type="checkbox" name="public" id="weightToggle" />
@@ -228,6 +282,7 @@ export default class PathfindingVisualizer extends Component {
                         </div>
                     </div>
                     <button className="item" onClick={() => { this.generateMaze() }} style={{ border: "none" }}>Generate Maze</button>
+                    <button id="status" style={{ border: "none", display: "none", alignItems: "center", backgroundColor: "black", color: "white", position: "relative" }}><div class="loader"></div>Loading Maze .. Please Wait!</button>
                 </div>
                 <table>
                     <tbody>
