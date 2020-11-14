@@ -110,7 +110,7 @@ export default class PathfindingVisualizer extends Component {
         if (!this.state.mouseIsPressed) return;
         if (this.state.startIsSelected) {
             const currGrid = this.state.grid;
-            if (!currGrid[row][col].isFinish && !currGrid[row][col].isWall) {
+            if (!currGrid[row][col].isFinish && !currGrid[row][col].isWall && !currGrid[row][col].isWeight) {
                 const newGrid = getNewGridWithStartToggled(this.state.grid, row, col);
                 this.setState({ grid: newGrid });
             }
@@ -118,7 +118,7 @@ export default class PathfindingVisualizer extends Component {
         }
         if (this.state.finishIsSelected) {
             const currGrid = this.state.grid;
-            if (!currGrid[row][col].isStart && !currGrid[row][col].isWall) {
+            if (!currGrid[row][col].isStart && !currGrid[row][col].isWall && !currGrid[row][col].isWeight) {
                 const newGrid = getNewGridWithFinishToggled(this.state.grid, row, col);
                 this.setState({ grid: newGrid });
             }
