@@ -1,4 +1,4 @@
-# Pathfinding Visualizer
+# Pathfinding Visualizer (A React APP)
 This mini-project is inspired by [Clément Mihailescu's](https://github.com/clementmihailescu) pathfinding visualizer [tutorial](https://youtu.be/msttfIHHkak). Pathfinding algorithms are usually an attempt to solve the shortest path problem in graph theory. They try to find the best path given a starting point and ending point based on some predefined criteria. A few of these (weighted and non-weighted algorithms have been implemented in this App, which can be found live at [https://rishabhsood.github.io/pathFindingVisualizer/](https://rishabhsood.github.io/pathFindingVisualizer/). The algorithms implemented namely are:
 
 ## Dijkstra's Algorithm (weighted)
