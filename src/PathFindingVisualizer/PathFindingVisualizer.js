@@ -229,21 +229,14 @@ export default class PathfindingVisualizer extends Component {
         recursiveDivisionMaze(2, 17, 2, 47, 0, divisionWalls);
 
         for (let i = 0; i <= divisionWalls.length; i++) {
+            let newGrid = this.state.grid;
             if (i === divisionWalls.length) {
                 setTimeout(() => {
-                    let newGrid = this.state.grid;
-                    for (let j = 0; j < divisionWalls.length; j++) {
-                        const row = divisionWalls[j][0];
-                        const col = divisionWalls[j][1];
-                        if (!newGrid[row][col].isWall && !newGrid[row][col].isStart && !newGrid[row][col].isFinish && !newGrid[row][col].isWeight) {
-                            newGrid[row][col].isWall = true;
-                        }
-                        document.body.style.pointerEvents = "all";
-                        const items = document.getElementsByClassName("item")
-                        for (const item of items)
-                            item.style.opacity = 1;
-                        document.getElementById("status").style.display = "none";
-                    }
+                    document.body.style.pointerEvents = "all";
+                    const items = document.getElementsByClassName("item")
+                    for (const item of items)
+                        item.style.opacity = 1;
+                    document.getElementById("status").style.display = "none";
                     this.setState({ grid: newGrid });
                 }, 10.3 * (i - 1));
                 return;
@@ -254,6 +247,7 @@ export default class PathfindingVisualizer extends Component {
                 const newGrid = this.state.grid;
                 if (!newGrid[row][col].isWall && !newGrid[row][col].isStart && !newGrid[row][col].isFinish) {
                     document.getElementById(`node-${row}-${col}`).className = 'node-wall';
+                    newGrid[row][col].isWall = true;
                 }
             }, 10 * i);
         }
