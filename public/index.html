@@ -32,7 +32,7 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div class="ui longer modal">
+    <div class="ui longer modal" id="modal">
       <i class="close icon"></i>
       <div class="header"><i class="road icon"></i>Pathfinding Visualizer</div>
       <div class="scrolling content">
@@ -170,9 +170,6 @@
     -->
   </body>
   <script>
-    $('.ui.longer.modal')
-      .modal('show')
-    ;
     $(window).resize(function() {
       window.location.href = window.location.href;
     })
@@ -190,6 +187,11 @@
       }
       return "desktop";
     };
+    if(getDeviceType() === "desktop") {
+       $('.ui.longer.modal')
+        .modal('show')
+      ;
+    }
     if(getDeviceType() === "mobile") {
       document.getElementById("root").style.display = 'none';
       document.getElementById("error").style.display = 'flex';
