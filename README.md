@@ -13,3 +13,8 @@ This mini-project is inspired by [Clément Mihailescu's](https://github.com/clem
 ## Breadth First Search (unweighted)
 > Breadth First Search (BFS) is again an algorithm for traversing or searching tree or graph data structures.It starts at the root node and examines child nodes level wise. It's updation algorithm is very similar to that of Dijkstra's, however it doesn't take into account weights of nodes and treats each node equally.
 
+## The recursive maze division algorithm
+> A basic recursive algorithm is used to generate the mazes you see on your screen. Detailing on the same can be found [here](http://weblog.jamisbuck.org/2011/1/12/maze-generation-recursive-division-algorithm). Love mazes ? Don't forget to check out Jamis Buck's [Mazes for programmers](http://www.mazesforprogrammers.com/).
+
+
+
