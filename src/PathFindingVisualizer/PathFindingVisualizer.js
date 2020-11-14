@@ -238,13 +238,13 @@ export default class PathfindingVisualizer extends Component {
                         if (!newGrid[row][col].isWall && !newGrid[row][col].isStart && !newGrid[row][col].isFinish && !newGrid[row][col].isWeight) {
                             newGrid[row][col].isWall = true;
                         }
-                        this.setState({ grid: newGrid });
                         document.body.style.pointerEvents = "all";
                         const items = document.getElementsByClassName("item")
                         for (const item of items)
                             item.style.opacity = 1;
                         document.getElementById("status").style.display = "none";
                     }
+                    this.setState({ grid: newGrid });
                 }, 10.3 * (i - 1));
                 return;
             }
