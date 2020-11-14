@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { dijkstraANDastar, depthFirstSearch, getNodesInShortestPathOrder, mazeGenerator, recursiveDivisionMaze } from '../Algorithms/algorithms';
+import { dijkstraANDastar, depthFirstSearch, getNodesInShortestPathOrder, recursiveDivisionMaze } from '../Algorithms/algorithms';
 import Node from './Node/Node';
 import "./PathFindingVisualizer.css";
 
