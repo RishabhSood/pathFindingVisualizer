@@ -27,13 +27,13 @@ export default class PathfindingVisualizer extends Component {
 
     toggleAlgos() {
         var div = document.getElementById("algo1");
-        div.style.display = div.style.display == "none" ? "block" : "none";
+        div.style.display = div.style.display === "none" ? "block" : "none";
         div = document.getElementById("algo2");
-        div.style.display = div.style.display == "none" ? "block" : "none";
+        div.style.display = div.style.display === "none" ? "block" : "none";
         div = document.getElementById("algo3");
-        div.style.display = div.style.display == "none" ? "block" : "none";
+        div.style.display = div.style.display === "none" ? "block" : "none";
         div = document.getElementById("algo4");
-        div.style.display = div.style.display == "none" ? "block" : "none";
+        div.style.display = div.style.display === "none" ? "block" : "none";
     }
 
     clearWeights() {
