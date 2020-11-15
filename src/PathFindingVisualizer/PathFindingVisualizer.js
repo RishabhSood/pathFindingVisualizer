@@ -25,8 +25,15 @@ export default class PathfindingVisualizer extends Component {
         this.setState({ grid });
     }
 
-    clearBoard() {
-        window.location.reload();
+    toggleAlgos() {
+        var div = document.getElementById("algo1");
+        div.style.display = div.style.display == "none" ? "block" : "none";
+        div = document.getElementById("algo2");
+        div.style.display = div.style.display == "none" ? "block" : "none";
+        div = document.getElementById("algo3");
+        div.style.display = div.style.display == "none" ? "block" : "none";
+        div = document.getElementById("algo4");
+        div.style.display = div.style.display == "none" ? "block" : "none";
     }
 
     clearWeights() {
@@ -221,8 +228,6 @@ export default class PathfindingVisualizer extends Component {
         const items = document.getElementsByClassName("item")
         for (const item of items)
             item.style.opacity = 0.5;
-        document.getElementById("status").style.display = "flex";
-        document.getElementById("status").style.opacity = 1;
         const divisionWalls = [];
         for (let j = 0; j < 50; j++)
             divisionWalls.push([0, j]);
@@ -242,7 +247,6 @@ export default class PathfindingVisualizer extends Component {
                     const items = document.getElementsByClassName("item")
                     for (const item of items)
                         item.style.opacity = 1;
-                    document.getElementById("status").style.display = "none";
                     this.setState({ grid: newGrid });
                 }, 10.3 * (i - 1));
                 return;
@@ -268,13 +272,13 @@ export default class PathfindingVisualizer extends Component {
                     <div className="item" style={{ color: "white", backgroundColor: "#1A1A1D" }}>
                         <i class="road icon"></i>Pathfinding Visualizer
                     </div>
-                    <button className="item" onClick={() => { this.visualizeDijkstraOrAstar(true, false) }} style={{ border: "none" }}>Visualize Dijkstra</button>
-                    <button className="item" onClick={() => { this.visualizeDijkstraOrAstar(false, false) }} style={{ border: "none" }}>Visualize A*</button>
-                    <button className="item" onClick={() => { this.visualizeDijkstraOrAstar(true, true) }} style={{ border: "none" }}>Visualize BFS</button>
-                    <button className="item" onClick={() => { this.visualizeDFS() }} style={{ border: "none" }}>Visualize DFS</button>
-                    <button className="item" onClick={() => { this.clearWeights() }} style={{ border: "none" }}>Clear Weights</button>
+                    <button className="item" onClick={() => { this.toggleAlgos() }} style={{ border: "none" }}>Pathfinding Algorithms <i class="angle double right icon"></i></button>
+                    <button className="item" id="algo1" onClick={() => { this.visualizeDijkstraOrAstar(true, false) }} style={{ border: "none", display: "none" }}>Visualize Dijkstra</button>
+                    <button className="item" id="algo2" onClick={() => { this.visualizeDijkstraOrAstar(false, false) }} style={{ border: "none", display: "none" }}>Visualize A*</button>
+                    <button className="item" id="algo3" onClick={() => { this.visualizeDijkstraOrAstar(true, true) }} style={{ border: "none", display: "none" }}>Visualize BFS</button>
+                    <button className="item" id="algo4" onClick={() => { this.visualizeDFS() }} style={{ border: "none", display: "none" }}>Visualize DFS</button>
+                    <button className="item" onClick={() => { this.clearWeights() }} style={{ border: "none" }}>Clear Weights & Walls</button>
                     <button className="item" onClick={() => { this.clearPath() }} style={{ border: "none" }}>Clear Path</button>
-                    <button className="item" onClick={() => { this.clearBoard() }} style={{ border: "none" }}>Refresh</button>
                     <div className="item">
                         <div className="ui toggle checkbox">
                             <input type="checkbox" name="public" id="weightToggle" />
@@ -282,7 +286,6 @@ export default class PathfindingVisualizer extends Component {
                         </div>
                     </div>
                     <button className="item" onClick={() => { this.generateMaze() }} style={{ border: "none" }}>Generate Maze</button>
-                    <button id="status" style={{ border: "none", display: "none", alignItems: "center", backgroundColor: "black", color: "white", position: "relative" }}><div class="loader"></div>Loading Maze .. Please Wait!</button>
                 </div>
                 <table>
                     <tbody>
