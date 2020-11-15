@@ -237,7 +237,8 @@ export default class PathfindingVisualizer extends Component {
         }
         for (let l = 48; l >= 1; l--)
             divisionWalls.push([19, l]);
-        recursiveDivisionMaze(2, 17, 2, 47, 0, divisionWalls);
+        let randomOrientation = Math.floor(Math.random() * 2);
+        recursiveDivisionMaze(2, 17, 2, 47, randomOrientation, divisionWalls);
 
         for (let i = 0; i <= divisionWalls.length; i++) {
             let newGrid = this.state.grid;
